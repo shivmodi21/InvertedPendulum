@@ -20,7 +20,7 @@ def index():
 
 @app.get("/<path:filename>")
 def static_files(filename):
-    allowed = {"styles.css", "app.js"}
+    allowed = {"styles.css", "script.js"}
     if filename not in allowed:
         return jsonify(error="Not found"), 404
     return send_from_directory(FRONTEND, filename)
