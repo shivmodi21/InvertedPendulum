@@ -98,3 +98,82 @@
   opacity: 0.55;
   vertical-align: 0.15em;
 }
+
+/* Control panel refinement: use the full panel height more deliberately. */
+@media (min-width: 951px) {
+  .controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .controls .panel-heading h3 {
+    font-size: 14px;
+  }
+
+  .controls > .field-grid:not(.compact) {
+    row-gap: 20px;
+    column-gap: 20px;
+  }
+
+  .controls .field-grid label {
+    font-size: 11px;
+    gap: 7px;
+  }
+
+  .controls .field-grid label span {
+    font-size: 12px;
+  }
+
+  .controls .control-divider {
+    margin: 18px 0;
+    flex-shrink: 0;
+  }
+
+  .controls .hint {
+    font-size: 11px;
+    line-height: 1.6;
+    margin: -2px 0 0;
+  }
+
+  .controls .field-grid.compact {
+    column-gap: 14px;
+    row-gap: 14px;
+  }
+
+  .controls .field-grid.compact label {
+    font-size: 11px;
+    gap: 8px;
+  }
+
+  .controls .field-grid.compact label span {
+    font-size: 12px;
+  }
+
+  .controls .field-grid input[type="range"] {
+    min-height: 18px;
+  }
+
+  .controls .primary-button {
+    min-height: 46px;
+    margin-top: 0;
+    font-size: 13px;
+  }
+
+  .controls .message {
+    font-size: 11px;
+    margin: 0;
+    min-height: 18px;
+  }
+}
+
+@media (max-width: 950px) {
+  .controls .field-grid:not(.compact) {
+    row-gap: 18px;
+  }
+
+  .controls .primary-button {
+    min-height: 46px;
+  }
+}
