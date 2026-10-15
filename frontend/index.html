@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b1020">
   <meta name="description" content="Interactive inverted pendulum experiment: natural fall, energy-based swing-up, and LQR balancing.">
-  <title>Inverted Pendulum Lab | Shiv Modi</title>
+  <title>Inverted Pendulum</title>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
-  <script src="/app.js" defer></script>
+  <script src="/script.js" defer></script>
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="#"><span class="brand-mark">IP</span><span>CONTROL<span class="muted"> / LAB</span></span></a>
-    <nav><a href="#simulation">Simulation</a><a href="#model">Model</a><a href="#about">About</a><a class="github-link" href="https://github.com/" target="_blank" rel="noreferrer">Source code ↗</a></nav>
+    <nav><a href="#simulation">Simulation</a><a href="#model">Model</a><a href="#about">About</a><a class="github-link" href="https://github.com/shivmodi21/InvertedPendulum" target="_blank" rel="noreferrer">Source code <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></nav>
   </header>
   <main>
     <section class="hero">
-      <div class="eyebrow"><span class="pulse"></span> DYNAMICAL SYSTEMS · CONTROL THEORY</div>
+      <div class="eyebrow"><span class="pulse"></span><span class="meta-inline"><span>DYNAMICAL SYSTEMS</span><span>CONTROL THEORY</span></span></div>
       <h1>Balancing the<br><span>impossible.</span></h1>
       <p class="hero-copy">Let the pole fall, watch the cart deliver a sharp swing-up impulse, then see a feedback controller catch the pole and balance it upright. Follow every correction in synchronized live graphs.</p>
       <div class="hero-stats"><div><strong>03</strong><small>CONTROL PHASES</small></div><div><strong>HYBRID</strong><small>SWING-UP + LQR</small></div><div><strong>RK45</strong><small>NUMERICAL SOLVER</small></div></div>
@@ -27,7 +28,7 @@
       <div class="section-heading"><div><span class="section-index">01 / EXPERIMENT</span><h2>Simulation workspace</h2></div><span class="live-status"><i></i> INTERACTIVE MODEL</span></div>
       <div class="workspace-grid">
         <aside class="panel controls">
-          <div class="panel-heading"><h3>System parameters</h3><button id="reset" class="text-button">Reset ↺</button></div>
+          <div class="panel-heading"><h3>System parameters</h3><button id="reset" class="text-button"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reset</button></div>
           <div class="field-grid">
             <label>Cart mass <span id="cart_mass_val">5.0 kg</span><input id="cart_mass" type="range" min="1" max="15" step=".5" value="5"></label>
             <label>Pole mass <span id="pole_mass_val">2.0 kg</span><input id="pole_mass" type="range" min=".2" max="8" step=".1" value="2"></label>
@@ -44,7 +45,7 @@
             <label>Angle weight Q₃ <span id="q_angle_val">18</span><input id="q_angle" type="range" min="1" max="40" step="1" value="18"></label>
             <label>Control cost R <span id="r_control_val">0.8</span><input id="r_control" type="range" min=".1" max="5" step=".1" value="0.8"></label>
           </div>
-          <button id="run" class="primary-button"><span>▶</span> Run simulation</button>
+          <button id="run" class="primary-button"><i class="fa-solid fa-play" aria-hidden="true"></i> Run simulation</button>
           <p id="message" class="message" role="status">Ready to simulate.</p>
         </aside>
         <section class="panel visual-panel">
@@ -52,12 +53,12 @@
           <canvas id="scene" aria-label="Animated cart and inverted pendulum"></canvas>
           <div class="scene-legend"><span><i class="legend-cart"></i> Cart</span><span><i class="legend-pole"></i> Pendulum</span><span><i class="legend-target"></i> Target equilibrium</span></div>
           <div class="metric-grid">
-            <div class="metric"><small>CART POSITION</small><strong id="metric-position">— <em>m</em></strong></div>
-            <div class="metric"><small>POLE ANGLE</small><strong id="metric-angle">— <em>°</em></strong></div>
-            <div class="metric"><small>CONTROL FORCE</small><strong id="metric-force">— <em>N</em></strong></div>
-            <div class="metric"><small>FINAL ANGLE ERROR</small><strong id="metric-error">— <em>°</em></strong></div>
+            <div class="metric"><small>CART POSITION</small><strong id="metric-position"><i class="fa-solid fa-minus metric-empty" aria-hidden="true"></i> <em>m</em></strong></div>
+            <div class="metric"><small>POLE ANGLE</small><strong id="metric-angle"><i class="fa-solid fa-minus metric-empty" aria-hidden="true"></i> <em>°</em></strong></div>
+            <div class="metric"><small>CONTROL FORCE</small><strong id="metric-force"><i class="fa-solid fa-minus metric-empty" aria-hidden="true"></i> <em>N</em></strong></div>
+            <div class="metric"><small>FINAL ANGLE ERROR</small><strong id="metric-error"><i class="fa-solid fa-minus metric-empty" aria-hidden="true"></i> <em>°</em></strong></div>
           </div>
-          <div class="playback"><button id="play" class="secondary-button" disabled>▶ Play</button><button id="pause" class="secondary-button" disabled>Ⅱ Pause</button><label>Playback speed <select id="speed"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label><span id="frame-count">Awaiting simulation</span></div>
+          <div class="playback"><button id="play" class="secondary-button" disabled><i class="fa-solid fa-play" aria-hidden="true"></i> Play</button><button id="pause" class="secondary-button" disabled><i class="fa-solid fa-pause" aria-hidden="true"></i> Pause</button><label>Playback speed <select id="speed"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label><span id="frame-count">Awaiting simulation</span></div>
         </section>
       </div>
       <div class="charts-grid">
@@ -75,8 +76,8 @@
       </div>
       <div class="equation-panel"><div><span class="section-index">OBJECTIVE FUNCTION</span><h3>Choose the behavior you want.</h3><p>Increase the angle weight to prioritize keeping the pole upright. Increase R to penalize large control forces.</p></div><div class="equation">J = ∫ (xᵀQx + uᵀRu) dt</div></div>
     </section>
-    <section id="about" class="about-section"><span class="section-index">03 / PROJECT NOTES</span><h2>Built to experiment.</h2><p>This project translates a MATLAB cart-pole simulation into Python and makes the controller explorable through a browser. It combines nonlinear simulation, optimal control, numerical integration, and front-end visualization.</p><div class="tech-tags"><span>Python</span><span>NumPy</span><span>SciPy</span><span>Flask</span><span>Matplotlib</span><span>JavaScript</span></div><p class="footnote">Idealized nonlinear model · bounded actuator force and cart travel · LQR is used only near the upright equilibrium.</p></section>
+    <section id="about" class="about-section"><span class="section-index">03 / PROJECT NOTES</span><h2>Built to experiment.</h2><p>This project translates a MATLAB cart-pole simulation into Python and makes the controller explorable through a browser. It combines nonlinear simulation, optimal control, numerical integration, and front-end visualization.</p><div class="tech-tags"><span>Python</span><span>NumPy</span><span>SciPy</span><span>Flask</span><span>Matplotlib</span><span>JavaScript</span></div><p class="footnote meta-stack"><span>Idealized nonlinear model</span><span>Bounded actuator force and cart travel</span><span>LQR is used only near the upright equilibrium</span></p></section>
   </main>
-  <footer><span>INVERTED PENDULUM LAB</span><span>Designed & engineered by Shiv Modi · <span id="year"></span></span></footer>
+  <footer><span>INVERTED PENDULUM LAB</span><span class="meta-inline"><span>Designed &amp; engineered by Shiv Modi</span><span id="year"></span></span></footer>
 </body>
 </html>

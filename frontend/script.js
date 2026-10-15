@@ -18,12 +18,32 @@ const units = {
   cart_mass: " kg", pole_mass: " kg", pole_length: " m", damping: "",
   initial_position: " m", initial_angle_deg: "°", q_position: "", q_angle: "", r_control: ""
 };
+const dotSep = '<span class="dot-sep" aria-hidden="true"></span>';
+const metaJoin = (...parts) => parts.join(dotSep);
 const phaseLabels = {
-  fall: {label: "01 · NATURAL FALL", className: "phase-fall"},
-  swingup: {label: "02 · SWING-UP / JERK", className: "phase-swingup"},
-  balance: {label: "03 · LQR BALANCE", className: "phase-balance"},
+  fall: {label: metaJoin("01", "NATURAL FALL"), className: "phase-fall"},
+  swingup: {label: metaJoin("02", "SWING-UP / JERK"), className: "phase-swingup"},
+  balance: {label: metaJoin("03", "LQR BALANCE"), className: "phase-balance"},
   free: {label: "FREE MOTION", className: "phase-fall"}
 };
+
+const fa = (name) => `<i class="fa-solid fa-${name}" aria-hidden="true"></i>`;
+const emptyMetricHtml = (unit) => `${fa("minus")} <em>${unit}</em>`;
+const emptyMetrics = {
+  "metric-position": emptyMetricHtml("m"),
+  "metric-angle": emptyMetricHtml("°"),
+  "metric-force": emptyMetricHtml("N"),
+  "metric-error": emptyMetricHtml("°")
+};
+
+function setPlayButton(mode) {
+  const labels = {
+    play: `${fa("play")} Play`,
+    playing: `${fa("play")} Playing`,
+    replay: `${fa("rotate-right")} Replay`
+  };
+  $("play").innerHTML = labels[mode] || labels.play;
+}
 
 function readForm() {
   const payload = {};
@@ -166,7 +186,7 @@ function showFrame(index) {
   $("metric-error").innerHTML = `${Math.abs(wrapAngle(state[2]) * 180 / Math.PI).toFixed(3)} <em>°</em>`;
   $("frame-count").textContent = `Frame ${frame + 1} / ${result.time.length}`;
   const phaseInfo = phaseLabels[result.phase?.[frame] || "free"];
-  $("phase-pill").textContent = phaseInfo.label;
+  $("phase-pill").innerHTML = phaseInfo.label;
   $("phase-pill").className = `phase-pill ${phaseInfo.className}`;
 }
 
@@ -177,7 +197,7 @@ function tick(now) {
     lastTick = now;
     if (frame >= result.time.length - 1) {
       playing = false;
-      $("play").textContent = "↻ Replay";
+      setPlayButton("replay");
       $("message").textContent = "Experiment complete. The traces show the full response.";
       return;
     }
@@ -196,12 +216,12 @@ function startPlayback() {
   pause();
   playing = true;
   lastTick = 0;
-  $("play").textContent = "▶ Playing";
+  setPlayButton("playing");
   animationHandle = requestAnimationFrame(tick);
 }
 
 $("play").addEventListener("click", startPlayback);
-$("pause").addEventListener("click", () => { pause(); $("play").textContent = "▶ Play"; });
+$("pause").addEventListener("click", () => { pause(); setPlayButton("play"); });
 $("run").addEventListener("click", async () => {
   pause();
   $("run").disabled = true;
@@ -220,8 +240,8 @@ $("run").addEventListener("click", async () => {
     showFrame(0);
     $("play").disabled = false;
     $("pause").disabled = false;
-    $("message").textContent = `Ready · ${data.time.length} samples · ${data.controller_enabled ? "hybrid swing-up + LQR" : "controller disabled"}.`;
-    $("play").textContent = "▶ Play";
+    $("message").innerHTML = `${metaJoin("Ready", `${data.time.length} samples`, data.controller_enabled ? "hybrid swing-up + LQR" : "controller disabled")}.`;
+    setPlayButton("play");
     startPlayback();
   } catch (err) {
     $("message").textContent = err.message;
@@ -241,7 +261,7 @@ $("reset").addEventListener("click", () => {
   if (stateChart) { stateChart.destroy(); stateChart = null; }
   if (controlChart) { controlChart.destroy(); controlChart = null; }
   drawScene([0, 0, 0, 0]);
-  ["metric-position", "metric-angle", "metric-force", "metric-error"].forEach(id => $(id).innerHTML = "—");
+  Object.entries(emptyMetrics).forEach(([id, html]) => $(id).innerHTML = html);
   $("sim-time").textContent = "t = 0.00 s";
   $("phase-pill").textContent = "READY TO RUN";
   $("phase-pill").className = "phase-pill phase-fall";

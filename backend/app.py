@@ -5,12 +5,13 @@ from pathlib import Path
 
 from flask import Flask, jsonify, request, send_from_directory
 from werkzeug.exceptions import BadRequest
-from backend.model import Parameters, simulate
 
 ROOT = Path(__file__).resolve().parent.parent
 FRONTEND = ROOT / "frontend"
 
 app = Flask(__name__, static_folder=None)
+
+from backend.model import Parameters, simulate
 
 @app.get("/")
 def index():
@@ -19,7 +20,7 @@ def index():
 
 @app.get("/<path:filename>")
 def static_files(filename):
-    allowed = {"styles.css", "app.js"}
+    allowed = {"styles.css", "script.js"}
     if filename not in allowed:
         return jsonify(error="Not found"), 404
     return send_from_directory(FRONTEND, filename)
