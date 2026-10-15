@@ -109,7 +109,17 @@ def simulate(
     phase = "fall" if use_controller else "free"
     swingup_started = None
     jerk_duration = 0.24
-    jerk_force = 34.0
+    jerk_force = 38.0
+    # Mirror the initial kick for mirrored starting conditions. This keeps the
+    # swing-up trajectory symmetric for positive and negative initial angles.
+    initial_angle = wrap_angle(state[2])
+    initial_angular_velocity = float(state[3])
+    if abs(initial_angle) > 1e-6:
+        jerk_direction = float(np.sign(initial_angle))
+    elif abs(initial_angular_velocity) > 1e-6:
+        jerk_direction = float(np.sign(initial_angular_velocity))
+    else:
+        jerk_direction = 1.0
     capture_angle = np.deg2rad(35.0)
     capture_speed = 2.8
     target_energy = p.pole_mass * p.gravity * p.pole_length
@@ -124,10 +134,9 @@ def simulate(
         if current_phase == "swingup":
             if swingup_started is not None and t - swingup_started < jerk_duration:
                 # A deliberate, short impulse makes the swing-up visibly legible.
-                return float(np.clip(jerk_force, -p.max_force, p.max_force))
+                return float(np.clip(jerk_direction * jerk_force, -p.max_force, p.max_force))
             energy = 0.5 * p.pole_mass * (p.pole_length * theta_dot) ** 2 + target_energy * np.cos(theta)
             energy_error = energy - target_energy
-            direction = np.sign(np.cos(theta) * theta_dot)
             # Energy shaping, with cart-centering feedback and a hard actuator limit.
             force = 0.10 * energy_error * theta_dot * np.cos(theta) - 2.2 * x - 3.2 * x_dot
             if abs(np.cos(theta) * theta_dot) < 0.04:
