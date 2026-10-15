@@ -1,20 +1,16 @@
 """Flask API and static frontend server for the inverted pendulum demo."""
-from __future__ import annotations
-
 import os
 import sys
 from pathlib import Path
 
 from flask import Flask, jsonify, request, send_from_directory
 from werkzeug.exceptions import BadRequest
+from backend.model import Parameters, simulate
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-from inverted_pendulum.model import Parameters, simulate
-
-app = Flask(__name__, static_folder=None)
+ROOT = Path(__file__).resolve().parent.parent
 FRONTEND = ROOT / "frontend"
 
+app = Flask(__name__, static_folder=None)
 
 @app.get("/")
 def index():
@@ -41,17 +37,19 @@ def run_simulation():
         params = Parameters(
             pole_mass=float(payload.get("pole_mass", 2.0)),
             cart_mass=float(payload.get("cart_mass", 5.0)),
-            pole_length=float(payload.get("pole_length", 4.0)),
-            gravity=float(payload.get("gravity", 10.0)),
-            damping=float(payload.get("damping", 1.0)),
+            pole_length=float(payload.get("pole_length", 1.5)),
+            gravity=float(payload.get("gravity", 9.81)),
+            damping=float(payload.get("damping", 0.15)),
             q_position=float(payload.get("q_position", 1.0)),
             q_velocity=float(payload.get("q_velocity", 1.0)),
-            q_angle=float(payload.get("q_angle", 1.0)),
-            q_angular_velocity=float(payload.get("q_angular_velocity", 1.0)),
-            r_control=float(payload.get("r_control", 1.0)),
+            q_angle=float(payload.get("q_angle", 18.0)),
+            q_angular_velocity=float(payload.get("q_angular_velocity", 2.0)),
+            r_control=float(payload.get("r_control", 0.8)),
+            max_force=float(payload.get("max_force", 45.0)),
+            rail_limit=float(payload.get("rail_limit", 3.5)),
         )
         initial = [
-            float(payload.get("initial_position", 1.0)),
+            float(payload.get("initial_position", 0.0)),
             float(payload.get("initial_velocity", 0.0)),
             float(payload.get("initial_angle_deg", 5.72957795)) * 3.141592653589793 / 180,
             float(payload.get("initial_angular_velocity", 0.0)),

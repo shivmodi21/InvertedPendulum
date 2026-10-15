@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b1020">
-  <meta name="description" content="Interactive inverted pendulum simulation using nonlinear dynamics and LQR control.">
+  <meta name="description" content="Interactive inverted pendulum experiment: natural fall, energy-based swing-up, and LQR balancing.">
   <title>Inverted Pendulum Lab | Shiv Modi</title>
   <link rel="stylesheet" href="/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
@@ -19,8 +19,8 @@
     <section class="hero">
       <div class="eyebrow"><span class="pulse"></span> DYNAMICAL SYSTEMS · CONTROL THEORY</div>
       <h1>Balancing the<br><span>impossible.</span></h1>
-      <p class="hero-copy">Explore an inverted pendulum stabilized by Linear Quadratic Regulation. Change the system parameters, perturb the cart, and watch feedback bring the system back to equilibrium.</p>
-      <div class="hero-stats"><div><strong>04</strong><small>STATE VARIABLES</small></div><div><strong>LQR</strong><small>FEEDBACK CONTROL</small></div><div><strong>RK45</strong><small>NUMERICAL SOLVER</small></div></div>
+      <p class="hero-copy">Let the pole fall, watch the cart deliver a sharp swing-up impulse, then see a feedback controller catch the pole and balance it upright. Follow every correction in synchronized live graphs.</p>
+      <div class="hero-stats"><div><strong>03</strong><small>CONTROL PHASES</small></div><div><strong>HYBRID</strong><small>SWING-UP + LQR</small></div><div><strong>RK45</strong><small>NUMERICAL SOLVER</small></div></div>
     </section>
 
     <section id="simulation" class="workspace">
@@ -31,9 +31,9 @@
           <div class="field-grid">
             <label>Cart mass <span id="cart_mass_val">5.0 kg</span><input id="cart_mass" type="range" min="1" max="15" step=".5" value="5"></label>
             <label>Pole mass <span id="pole_mass_val">2.0 kg</span><input id="pole_mass" type="range" min=".2" max="8" step=".1" value="2"></label>
-            <label>Pole length <span id="pole_length_val">4.0 m</span><input id="pole_length" type="range" min="1" max="6" step=".25" value="4"></label>
-            <label>Damping <span id="damping_val">1.0</span><input id="damping" type="range" min="0" max="5" step=".1" value="1"></label>
-            <label>Initial cart offset <span id="initial_position_val">1.0 m</span><input id="initial_position" type="range" min="-3" max="3" step=".1" value="1"></label>
+            <label>Pole length <span id="pole_length_val">1.5 m</span><input id="pole_length" type="range" min="0.75" max="3" step=".25" value="1.5"></label>
+            <label>Damping <span id="damping_val">0.2</span><input id="damping" type="range" min="0" max="1.5" step=".05" value="0.15"></label>
+            <label>Initial cart offset <span id="initial_position_val">0.0 m</span><input id="initial_position" type="range" min="-1.5" max="1.5" step=".1" value="0"></label>
             <label>Initial pole angle <span id="initial_angle_deg_val">5.7°</span><input id="initial_angle_deg" type="range" min="-25" max="25" step=".5" value="5.7"></label>
           </div>
           <div class="control-divider"></div>
@@ -41,14 +41,14 @@
           <p class="hint">LQR weights tune the balance between state error and control effort.</p>
           <div class="field-grid compact">
             <label>Position weight Q₁ <span id="q_position_val">1</span><input id="q_position" type="range" min=".1" max="20" step=".1" value="1"></label>
-            <label>Angle weight Q₃ <span id="q_angle_val">1</span><input id="q_angle" type="range" min=".1" max="30" step=".1" value="1"></label>
-            <label>Control cost R <span id="r_control_val">1</span><input id="r_control" type="range" min=".1" max="10" step=".1" value="1"></label>
+            <label>Angle weight Q₃ <span id="q_angle_val">18</span><input id="q_angle" type="range" min="1" max="40" step="1" value="18"></label>
+            <label>Control cost R <span id="r_control_val">0.8</span><input id="r_control" type="range" min=".1" max="5" step=".1" value="0.8"></label>
           </div>
           <button id="run" class="primary-button"><span>▶</span> Run simulation</button>
           <p id="message" class="message" role="status">Ready to simulate.</p>
         </aside>
         <section class="panel visual-panel">
-          <div class="panel-heading"><h3>Live system view</h3><span id="sim-time" class="time-pill">t = 0.00 s</span></div>
+          <div class="panel-heading scene-heading"><h3>Live system view</h3><div class="scene-status"><span id="phase-pill" class="phase-pill phase-fall">READY TO RUN</span><span id="sim-time" class="time-pill">t = 0.00 s</span></div></div>
           <canvas id="scene" aria-label="Animated cart and inverted pendulum"></canvas>
           <div class="scene-legend"><span><i class="legend-cart"></i> Cart</span><span><i class="legend-pole"></i> Pendulum</span><span><i class="legend-target"></i> Target equilibrium</span></div>
           <div class="metric-grid">
@@ -61,8 +61,8 @@
         </section>
       </div>
       <div class="charts-grid">
-        <article class="panel chart-panel"><div class="panel-heading"><h3>State response</h3><span class="chart-note">Actual vs target</span></div><canvas id="stateChart"></canvas></article>
-        <article class="panel chart-panel"><div class="panel-heading"><h3>Control effort</h3><span class="chart-note">Applied force (N)</span></div><canvas id="controlChart"></canvas></article>
+        <article class="panel chart-panel"><div class="panel-heading"><h3>System response</h3><span class="chart-note">Cart position + pole angle</span></div><canvas id="stateChart"></canvas></article>
+        <article class="panel chart-panel"><div class="panel-heading"><h3>Controller effort</h3><span class="chart-note">Applied force (N)</span></div><canvas id="controlChart"></canvas></article>
       </div>
     </section>
 
@@ -71,11 +71,11 @@
       <div class="model-grid">
         <article class="model-card"><span class="model-number">01</span><h3>Nonlinear dynamics</h3><p>The cart and pole motion are integrated from the nonlinear equations of motion using SciPy's adaptive RK45 solver.</p><div class="formula">x = [p, ṗ, θ, θ̇]ᵀ</div></article>
         <article class="model-card"><span class="model-number">02</span><h3>Linearization</h3><p>A state-space model around the upright equilibrium provides the local approximation used to design the feedback controller.</p><div class="formula">ẋ = Ax + Bu</div></article>
-        <article class="model-card"><span class="model-number">03</span><h3>LQR controller</h3><p>The gain minimizes a quadratic cost that trades state error against actuator effort.</p><div class="formula">u = −Kx</div></article>
+        <article class="model-card"><span class="model-number">03</span><h3>Hybrid controller</h3><p>An energy-shaping swing-up controller injects energy after the natural fall. When the pole enters the capture region, LQR feedback stabilizes it upright.</p><div class="formula">Swing-up → LQR</div></article>
       </div>
       <div class="equation-panel"><div><span class="section-index">OBJECTIVE FUNCTION</span><h3>Choose the behavior you want.</h3><p>Increase the angle weight to prioritize keeping the pole upright. Increase R to penalize large control forces.</p></div><div class="equation">J = ∫ (xᵀQx + uᵀRu) dt</div></div>
     </section>
-    <section id="about" class="about-section"><span class="section-index">03 / PROJECT NOTES</span><h2>Built to experiment.</h2><p>This project translates a MATLAB cart-pole simulation into Python and makes the controller explorable through a browser. It combines nonlinear simulation, optimal control, numerical integration, and front-end visualization.</p><div class="tech-tags"><span>Python</span><span>NumPy</span><span>SciPy</span><span>Flask</span><span>Matplotlib</span><span>JavaScript</span></div><p class="footnote">Idealized model · no actuator saturation or rail constraints · controller is local to the upright equilibrium.</p></section>
+    <section id="about" class="about-section"><span class="section-index">03 / PROJECT NOTES</span><h2>Built to experiment.</h2><p>This project translates a MATLAB cart-pole simulation into Python and makes the controller explorable through a browser. It combines nonlinear simulation, optimal control, numerical integration, and front-end visualization.</p><div class="tech-tags"><span>Python</span><span>NumPy</span><span>SciPy</span><span>Flask</span><span>Matplotlib</span><span>JavaScript</span></div><p class="footnote">Idealized nonlinear model · bounded actuator force and cart travel · LQR is used only near the upright equilibrium.</p></section>
   </main>
   <footer><span>INVERTED PENDULUM LAB</span><span>Designed & engineered by Shiv Modi · <span id="year"></span></span></footer>
 </body>
