@@ -41,3 +41,9 @@ The simulation models the nonlinear dynamics of a cart-pole system. The pendulum
 
 `Python` · `NumPy` · `SciPy` · `Flask` · `JavaScript` · `Chart.js`
 
+---
+
+## Author
+
+**Shiv Modi** — B.Tech. + M.Tech., IIT Bombay  
+[GitHub](https://github.com/shivmodi21) · [Portfolio](https://shivmodi21.github.io/) · [LinkedIn](https://www.linkedin.com/in/shivmodi210/)
