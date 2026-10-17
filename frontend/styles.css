@@ -99,21 +99,6 @@ a {
 .nav-toggle:hover {
     color: var(--cyan)
 }
-.nav-toggle .nav-toggle-icon {
-    display: none;
-    line-height: 1;
-    font-size: 1.05rem;
-    pointer-events: none
-}
-.nav-toggle .nav-toggle-icon--menu {
-    display: block
-}
-.topbar.is-nav-open .nav-toggle .nav-toggle-icon--menu {
-    display: none
-}
-.topbar.is-nav-open .nav-toggle .nav-toggle-icon--close {
-    display: block
-}
 .brand-title {
     white-space: nowrap
 }
@@ -620,7 +605,7 @@ footer {
 /* Meta separators and inline operators (Font Awesome) */
 .meta-sep {
     font-size: 0.38em;
-    margin: 0 0.55em;
+    margin: 0 1.5em;
     opacity: 0.42;
     vertical-align: 0.2em;
     flex-shrink: 0;
@@ -653,13 +638,7 @@ footer {
 .playback-speed .speed-control {
     display: inline-flex;
     align-items: center;
-    gap: 0.35em;
     margin-left: 5px;
-}
-.playback-mult {
-    margin: 0;
-    font-size: 0.85em;
-    opacity: 0.75;
 }
 
 /* Responsive — largest viewports first */
@@ -830,11 +809,13 @@ footer {
     }
 }
 
-@media (max-width: 768px) {
-    .nav-toggle {
-        display: inline-flex;
-    }
-    .topbar {
+/*
+ * Collapsible topbar navigation (hamburger).
+ * Widen/narrow layout: change max-width here only — not in JavaScript.
+ * JS only toggles .is-nav-open (panel open vs closed).
+ */
+@media (max-width: 530px) {
+    .topbar.topbar--nav-collapsible {
         height: auto;
         min-height: 56px;
         padding: 10px 15px;
@@ -842,19 +823,37 @@ footer {
         align-content: center;
         gap: 8px;
     }
-    .brand {
+    .topbar.topbar--nav-collapsible .brand {
         flex: 1 1 auto;
         min-width: 0;
         font-size: 13px;
         gap: 8px;
         letter-spacing: 0.1em;
     }
-    .brand-mark {
+    .topbar.topbar--nav-collapsible .brand-mark {
         width: 32px;
         height: 32px;
         font-size: 12px;
     }
-    .topbar nav {
+    .topbar.topbar--nav-collapsible .nav-toggle {
+        display: inline-flex;
+    }
+    .topbar.topbar--nav-collapsible .nav-toggle .nav-toggle-icon {
+        display: none;
+        line-height: 1;
+        font-size: 1.05rem;
+        pointer-events: none;
+    }
+    .topbar.topbar--nav-collapsible .nav-toggle .nav-toggle-icon--menu {
+        display: block;
+    }
+    .topbar.topbar--nav-collapsible.is-nav-open .nav-toggle .nav-toggle-icon--menu {
+        display: none;
+    }
+    .topbar.topbar--nav-collapsible.is-nav-open .nav-toggle .nav-toggle-icon--close {
+        display: block;
+    }
+    .topbar.topbar--nav-collapsible #site-nav {
         display: none;
         flex-direction: column;
         align-items: stretch;
@@ -863,21 +862,21 @@ footer {
         padding: 6px 0 10px;
         border-top: 1px solid #1b273a;
     }
-    .topbar.is-nav-open nav {
+    .topbar.topbar--nav-collapsible.is-nav-open #site-nav {
         display: flex;
     }
-    .topbar nav a {
+    .topbar.topbar--nav-collapsible #site-nav a {
         display: block;
         padding: 11px 6px;
         font-size: var(--font-label);
         border-radius: 8px;
     }
-    .topbar nav a:hover,
-    .topbar nav a:focus-visible {
+    .topbar.topbar--nav-collapsible #site-nav a:hover,
+    .topbar.topbar--nav-collapsible #site-nav a:focus-visible {
         color: var(--cyan);
         background: #101827;
     }
-    .github-link {
+    .topbar.topbar--nav-collapsible .github-link {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -885,8 +884,32 @@ footer {
         margin-top: 6px;
         padding: 10px 12px;
     }
-    .github-link .fa-solid {
+    .topbar.topbar--nav-collapsible .github-link .fa-solid {
         margin-left: 0;
+    }
+}
+
+@media (max-width: 430px) {
+    .meta-sep {
+        margin: 0 1em;
+    }
+    .hero .eyebrow {
+        font-size: 9px;
+        letter-spacing: 0.05em;
+    }
+    .hero .eyebrow .meta-inline {
+        flex-wrap: nowrap;
+    }
+    .hero .eyebrow .meta-sep {
+        font-size: 0.32em;
+    }
+    .workspace > .section-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .workspace > .section-heading .live-status {
+        margin-top: 2px;
     }
 }
 

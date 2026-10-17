@@ -503,22 +503,24 @@ $("controller_enabled").addEventListener("change", () => {
 });
 window.addEventListener("resize", () => drawScene(result ? result.states[frame] : [0, 0, 0, 0]));
 
-const topbar = document.querySelector(".topbar");
-const navToggle = $("nav-toggle");
-function setNavOpen(open) {
-    topbar.classList.toggle("is-nav-open", open);
-    navToggle.setAttribute("aria-expanded", String(open));
-    navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-}
-navToggle.addEventListener("click", () => setNavOpen(!topbar.classList.contains("is-nav-open")));
-document.querySelectorAll("#site-nav a").forEach((link) => {
-    link.addEventListener("click", () => setNavOpen(false));
-});
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setNavOpen(false);
-});
-window.matchMedia("(min-width: 769px)").addEventListener("change", (event) => {
-    if (event.matches) setNavOpen(false);
-});
+(function initSiteNav() {
+    const topbar = document.querySelector(".topbar");
+    const navToggle = $("nav-toggle");
+    if (!topbar || !navToggle) return;
+
+    function setNavOpen(open) {
+        topbar.classList.toggle("is-nav-open", open);
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+
+    navToggle.addEventListener("click", () => setNavOpen(!topbar.classList.contains("is-nav-open")));
+    document.querySelectorAll("#site-nav a").forEach((link) => {
+        link.addEventListener("click", () => setNavOpen(false));
+    });
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setNavOpen(false);
+    });
+})();
 
 drawScene([0, 0, 0, 0]);
