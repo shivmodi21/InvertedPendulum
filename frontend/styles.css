@@ -9,7 +9,11 @@
     --blue: #6c8cff;
     --yellow: #ffc857;
     --green: #67e8a5;
-    --radius: 16px
+    --radius: 16px;
+    --font-caption: clamp(9px, 0.72rem, 11px);
+    --font-label: clamp(11px, 0.85rem, 12px);
+    --font-ui: clamp(12px, 0.9rem, 13px);
+    --font-micro: clamp(9px, 0.68rem, 10px)
 }
 * {
     box-sizing: border-box
@@ -67,7 +71,7 @@ a {
     display: flex;
     align-items: center;
     gap: 26px;
-    font-size: 12px;
+    font-size: var(--font-ui);
     color: #b7c2d5
 }
 .topbar nav a:hover {
@@ -85,8 +89,8 @@ a {
 }
 .eyebrow,
 .section-index {
-    font-size: 10px;
-    letter-spacing: .17em;
+    font-size: var(--font-caption);
+    letter-spacing: .15em;
     font-weight: 800;
     color: var(--cyan)
 }
@@ -131,8 +135,8 @@ a {
     letter-spacing: -.03em
 }
 .hero-stats small {
-    font-size: 9px;
-    letter-spacing: .15em;
+    font-size: var(--font-micro);
+    letter-spacing: .13em;
     color: var(--muted)
 }
 main {
@@ -155,8 +159,8 @@ main {
     margin: 7px 0 0
 }
 .live-status {
-    font-size: 9px;
-    letter-spacing: .12em;
+    font-size: var(--font-micro);
+    letter-spacing: .1em;
     color: #a8b7cd
 }
 .workspace-grid {
@@ -180,7 +184,7 @@ main {
     margin-bottom: 18px
 }
 .panel-heading h3 {
-    font-size: 13px;
+    font-size: clamp(13px, 0.95rem, 14px);
     letter-spacing: .01em;
     margin: 0
 }
@@ -188,7 +192,7 @@ main {
     border: 0;
     background: transparent;
     color: var(--cyan);
-    font-size: 11px;
+    font-size: var(--font-label);
     cursor: pointer
 }
 .field-grid {
@@ -200,7 +204,7 @@ main {
     grid-template-columns: 1fr auto;
     gap: 9px;
     color: #c8d3e5;
-    font-size: 11px
+    font-size: var(--font-label)
 }
 .field-grid label span {
     color: var(--cyan);
@@ -247,9 +251,10 @@ main {
     left: 18px
 }
 .hint {
-    font-size: 10px;
+    font-size: var(--font-caption);
     color: var(--muted);
-    margin: -8px 0 17px
+    margin: -6px 0 16px;
+    line-height: 1.55
 }
 .field-grid.compact {
     gap: 14px
@@ -258,9 +263,9 @@ main {
 .secondary-button {
     border: 0;
     border-radius: 9px;
-    padding: 12px 15px;
+    padding: 11px 14px;
     font-weight: 750;
-    font-size: 12px;
+    font-size: var(--font-ui);
     cursor: pointer;
     transition: transform .15s, opacity .15s
 }
@@ -286,7 +291,7 @@ button:disabled {
 }
 .github-link .fa-solid {
     margin-left: 6px;
-    font-size: 10px
+    font-size: var(--font-caption)
 }
 .metric-empty {
     color: var(--muted);
@@ -294,10 +299,11 @@ button:disabled {
     vertical-align: middle
 }
 .message {
-    font-size: 10px;
+    font-size: var(--font-caption);
     color: var(--muted);
-    margin: 12px 0 0;
-    min-height: 16px
+    margin: 10px 0 0;
+    min-height: 18px;
+    line-height: 1.5
 }
 .message.error {
     color: #ff9292
@@ -309,9 +315,9 @@ button:disabled {
 .time-pill {
     border: 1px solid #344258;
     background: #0a1321;
-    padding: 5px 9px;
+    padding: 4px 8px;
     border-radius: 7px;
-    font-size: 10px;
+    font-size: var(--font-caption);
     color: var(--cyan);
     font-variant-numeric: tabular-nums
 }
@@ -324,11 +330,11 @@ button:disabled {
 }
 .scene-legend {
     display: flex;
-    gap: 18px;
+    gap: 16px;
     justify-content: center;
-    font-size: 10px;
+    font-size: var(--font-caption);
     color: var(--muted);
-    padding: 12px 0 20px
+    padding: 10px 0 18px
 }
 .scene-legend i {
     display: inline-block;
@@ -361,8 +367,8 @@ button:disabled {
     min-width: 0
 }
 .metric small {
-    font-size: 8px;
-    letter-spacing: .08em;
+    font-size: var(--font-micro);
+    letter-spacing: .06em;
     color: var(--muted)
 }
 .metric strong {
@@ -370,7 +376,7 @@ button:disabled {
     font-variant-numeric: tabular-nums
 }
 .metric em {
-    font-size: 10px;
+    font-size: var(--font-caption);
     font-style: normal;
     color: var(--muted);
     font-weight: 500
@@ -389,7 +395,7 @@ button:disabled {
     padding: 8px 11px
 }
 .playback label {
-    font-size: 10px;
+    font-size: var(--font-caption);
     color: var(--muted);
     margin-left: auto
 }
@@ -398,13 +404,15 @@ button:disabled {
     color: var(--text);
     border: 1px solid #33475f;
     border-radius: 6px;
-    padding: 5px;
+    padding: 4px 6px;
+    font-size: var(--font-caption);
     margin-left: 5px
 }
 .playback > span {
-    font-size: 9px;
+    font-size: var(--font-micro);
     color: var(--muted);
-    width: 100%
+    width: 100%;
+    line-height: 1.45
 }
 .charts-grid {
     display: grid;
@@ -413,15 +421,59 @@ button:disabled {
     margin-top: 18px
 }
 .chart-panel {
-    min-height: 320px
+    min-height: 320px;
+    overflow: hidden
 }
 .chart-panel canvas {
     width: 100% !important;
     height: 245px !important
 }
 .chart-note {
-    font-size: 10px;
+    font-size: var(--font-caption);
     color: var(--muted)
+}
+.scene-heading {
+    align-items: center
+}
+.scene-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end
+}
+.phase-pill {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #344258;
+    background: #0a1321;
+    padding: 4px 8px;
+    border-radius: 7px;
+    font-size: var(--font-micro);
+    font-weight: 800;
+    letter-spacing: .05em;
+    color: #aab8cd;
+    white-space: nowrap
+}
+.phase-fall {
+    color: #aab8cd;
+    border-color: #344258
+}
+.phase-swingup {
+    color: #ffc857;
+    border-color: #80652c;
+    background: #251d0c
+}
+.phase-balance {
+    color: #67e8a5;
+    border-color: #286b55;
+    background: #0d211d
+}
+.phase-pill .dot-sep {
+    width: 4px;
+    height: 4px;
+    opacity: 0.55;
+    vertical-align: 0.15em;
 }
 .model-section {
     padding: 40px 0 90px;
@@ -441,8 +493,8 @@ button:disabled {
 }
 .model-number {
     color: var(--cyan);
-    font-size: 10px;
-    letter-spacing: .15em
+    font-size: var(--font-caption);
+    letter-spacing: .13em
 }
 .model-card h3 {
     font-size: 16px;
@@ -450,7 +502,7 @@ button:disabled {
 }
 .model-card p,
 .about-section p {
-    font-size: 12px;
+    font-size: clamp(12px, 0.9rem, 14px);
     color: #9fadc2;
     line-height: 1.8
 }
@@ -479,7 +531,7 @@ button:disabled {
 }
 .equation-panel p {
     color: var(--muted);
-    font-size: 12px;
+    font-size: clamp(12px, 0.9rem, 14px);
     max-width: 580px
 }
 .equation {
@@ -508,323 +560,27 @@ button:disabled {
     margin: 22px 0
 }
 .tech-tags span {
-    font-size: 10px;
-    padding: 6px 10px;
+    font-size: var(--font-caption);
+    padding: 5px 9px;
     border: 1px solid #33445b;
     border-radius: 7px;
     color: #bdcce1
 }
 .about-section .footnote {
-    font-size: 10px;
-    color: #66758b
+    font-size: var(--font-caption);
+    color: #66758b;
+    line-height: 1.55
 }
 footer {
     border-top: 1px solid #1b273a;
-    padding: 24px clamp(20px, 6vw, 90px);
+    padding: 22px clamp(20px, 6vw, 90px);
     display: flex;
     justify-content: space-between;
     gap: 12px;
     color: #72829b;
-    font-size: 9px;
-    letter-spacing: .08em
-}
-@media (max-width: 950px) {
-    .workspace-grid {
-        grid-template-columns: 1fr
-    }
-    .controls .field-grid {
-        grid-template-columns: 1fr 1fr;
-        column-gap: 24px
-    }
-    .controls .control-divider {
-        margin: 20px 0
-    }
-    .charts-grid {
-        grid-template-columns: 1fr 1fr
-    }
-    .hero {
-        padding-top: 75px
-    }
-}
-@media (max-width: 650px) {
-    .topbar {
-        height: 64px;
-        padding: 0 17px
-    }
-    .topbar nav {
-        gap: 10px;
-        flex-shrink: 0;
-    }
-    .topbar nav a {
-        display: inline-block;
-        font-size: 10px;
-    }
-    .github-link {
-        padding: 6px;
-    }
-    .brand {
-        gap: 7px;
-        font-size: 9px;
-        letter-spacing: 0.08em;
-    }
-    .brand-mark {
-        width: 30px;
-        height: 30px;
-    }
-    main {
-        padding: 0 15px
-    }
-    .hero {
-        padding: 70px 4px 55px
-    }
-    .hero-copy {
-        font-size: 14px
-    }
-    .hero-stats {
-        gap: 24px
-    }
-    .hero-stats strong {
-        font-size: 18px
-    }
-    .hero-stats small {
-        font-size: 8px
-    }
-    .section-heading {
-        align-items: flex-end
-    }
-    .live-status {
-        font-size: 8px
-    }
-    .panel {
-        padding: 16px
-    }
-    .controls .field-grid {
-        grid-template-columns: 1fr
-    }
-    .metric-grid {
-        grid-template-columns: 1fr 1fr;
-        row-gap: 16px
-    }
-    .charts-grid,
-    .model-grid {
-        grid-template-columns: 1fr
-    }
-    .chart-panel {
-        min-height: 290px
-    }
-    .equation-panel {
-        align-items: flex-start;
-        flex-direction: column
-    }
-    .equation {
-        white-space: normal
-    }
-    .scene-legend {
-        gap: 10px;
-        font-size: 9px
-    }
-    #scene {
-        height: 270px
-    }
-    .playback label {
-        margin-left: 0
-    }
-    footer {
-        flex-direction: column
-    }
-    .workspace {
-        padding-bottom: 60px
-    }
-    .model-section {
-        padding-bottom: 60px
-    }
-}
-
-/* Hybrid swing-up experiment additions */
-.scene-heading {
-    align-items: center
-}
-.scene-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end
-}
-.phase-pill {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid #344258;
-    background: #0a1321;
-    padding: 5px 9px;
-    border-radius: 7px;
-    font-size: 9px;
-    font-weight: 800;
+    font-size: var(--font-micro);
     letter-spacing: .06em;
-    color: #aab8cd;
-    white-space: nowrap
-}
-.phase-fall {
-    color: #aab8cd;
-    border-color: #344258
-}
-.phase-swingup {
-    color: #ffc857;
-    border-color: #80652c;
-    background: #251d0c
-}
-.phase-balance {
-    color: #67e8a5;
-    border-color: #286b55;
-    background: #0d211d
-}
-.chart-panel {
-    overflow: hidden
-}
-@media (max-width: 650px) {
-    .scene-heading {
-        align-items: flex-start;
-        flex-direction: column
-    }
-    .scene-status {
-        justify-content: flex-start
-    }
-    .phase-pill {
-        font-size: 8px
-    }
-    .hero-stats {
-        gap: 18px
-    }
-}
-
-/* Workspace refinement: keep experiment controls and live scene together on desktop. */
-@media (min-width: 951px) {
-    .hero {
-        padding-top: 62px;
-        padding-bottom: 48px;
-    }
-    .hero h1 {
-        font-size: clamp(48px, 6vw, 72px);
-        margin: 18px 0 14px;
-    }
-    .hero-copy {
-        font-size: 14px;
-        line-height: 1.65;
-    }
-    .hero-stats {
-        margin-top: 24px;
-        gap: 38px;
-    }
-    .workspace {
-        padding-top: 20px;
-    }
-    .section-heading {
-        margin-bottom: 16px;
-    }
-    .workspace-grid {
-        grid-template-columns: minmax(360px, 0.78fr) minmax(0, 1.65fr);
-        gap: 14px;
-        align-items: stretch;
-    }
-    .panel {
-        padding: 18px;
-    }
-    .controls {
-        padding: 18px;
-    }
-    .controls .panel-heading {
-        margin-bottom: 12px;
-    }
-    .controls > .field-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: 16px;
-        row-gap: 12px;
-    }
-    .controls .field-grid label {
-        gap: 5px;
-        font-size: 10px;
-    }
-    .controls .field-grid input[type="range"] {
-        margin: 0;
-    }
-    .controls .control-divider {
-        margin: 15px 0;
-    }
-    .controls .hint {
-        margin: -5px 0 10px;
-    }
-    .controls .field-grid.compact {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-    }
-    .controls .field-grid.compact label {
-        grid-template-columns: 1fr;
-        align-content: start;
-    }
-    .controls .field-grid.compact label span {
-        grid-row: 2;
-    }
-    .primary-button {
-        margin-top: 16px;
-        padding: 11px 14px;
-    }
-    .message {
-        margin-top: 7px;
-    }
-    #scene {
-        height: clamp(280px, 35vh, 350px);
-    }
-    .scene-legend {
-        padding: 9px 0 13px;
-    }
-    .metric-grid {
-        padding: 12px 0;
-    }
-    .metric strong {
-        font-size: 17px;
-    }
-    .playback {
-        padding-top: 12px;
-    }
-}
-
-/* Move the rail lower so a fully upright pole has comfortable headroom. */
-@media (min-width: 651px) {
-    #scene {
-        --scene-ground-position: 0.70;
-    }
-}
-@media (max-width: 950px) {
-    .hero {
-        padding-top: 56px;
-        padding-bottom: 42px;
-    }
-    .hero h1 {
-        font-size: clamp(46px, 8vw, 68px);
-        margin: 18px 0 14px;
-    }
-    .hero-stats {
-        margin-top: 24px;
-    }
-    .controls .field-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-@media (max-width: 650px) {
-    .hero {
-        padding-top: 48px;
-        padding-bottom: 34px;
-    }
-    .hero h1 {
-        font-size: clamp(42px, 12vw, 58px);
-    }
-    .hero-stats {
-        gap: 18px;
-    }
-    .controls .field-grid,
-    .controls .field-grid.compact {
-        grid-template-columns: 1fr;
-    }
+    line-height: 1.45
 }
 
 /* Meta separators (CSS dots) */
@@ -862,87 +618,276 @@ footer {
     align-items: center;
     gap: 0.45em 0;
 }
-.phase-pill .dot-sep {
-    width: 4px;
-    height: 4px;
-    opacity: 0.55;
-    vertical-align: 0.15em;
-}
 
-/* Control panel refinement: use the full panel height more deliberately. */
+/* Responsive — largest viewports first */
 @media (min-width: 951px) {
+    .hero {
+        padding-top: 62px;
+        padding-bottom: 48px;
+    }
+    .hero h1 {
+        font-size: clamp(48px, 6vw, 72px);
+        margin: 18px 0 14px;
+    }
+    .hero-copy {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+    .hero-stats {
+        margin-top: 24px;
+        gap: 38px;
+    }
+    .workspace {
+        padding-top: 20px;
+    }
+    .section-heading {
+        margin-bottom: 16px;
+    }
+    .workspace-grid {
+        grid-template-columns: minmax(360px, 0.78fr) minmax(0, 1.65fr);
+        gap: 14px;
+        align-items: stretch;
+    }
+    .panel {
+        padding: 18px;
+    }
     .controls {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         gap: 14px;
+        padding: 18px;
+    }
+    .controls .panel-heading {
+        margin-bottom: 12px;
     }
     .controls .panel-heading h3 {
-        font-size: 14px;
+        font-size: clamp(14px, 1rem, 15px);
+    }
+    .controls > .field-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 16px;
+        row-gap: 12px;
     }
     .controls > .field-grid:not(.compact) {
         row-gap: 20px;
         column-gap: 20px;
     }
     .controls .field-grid label {
-        font-size: 11px;
         gap: 7px;
+        font-size: var(--font-label);
     }
     .controls .field-grid label span {
-        font-size: 12px;
+        font-size: var(--font-ui);
+    }
+    .controls .field-grid input[type="range"] {
+        margin: 0;
+        min-height: 18px;
     }
     .controls .control-divider {
         margin: 18px 0;
         flex-shrink: 0;
     }
     .controls .hint {
-        font-size: 11px;
+        font-size: var(--font-caption);
         line-height: 1.6;
         margin: -2px 0 0;
     }
     .controls .field-grid.compact {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         column-gap: 14px;
         row-gap: 14px;
     }
     .controls .field-grid.compact label {
-        font-size: 11px;
+        grid-template-columns: 1fr;
+        align-content: start;
+        font-size: var(--font-label);
         gap: 8px;
     }
     .controls .field-grid.compact label span {
-        font-size: 12px;
+        grid-row: 2;
+        font-size: var(--font-ui);
     }
-    .controls .field-grid input[type="range"] {
-        min-height: 18px;
+    .primary-button {
+        margin-top: 16px;
+        padding: 11px 14px;
     }
     .controls .primary-button {
-        min-height: 46px;
+        min-height: 44px;
         margin-top: 0;
-        font-size: 13px;
+        font-size: var(--font-ui);
+    }
+    .message {
+        margin-top: 7px;
     }
     .controls .message {
-        font-size: 11px;
+        font-size: var(--font-caption);
         margin: 0;
         min-height: 18px;
     }
+    #scene {
+        height: clamp(280px, 35vh, 350px);
+    }
+    .scene-legend {
+        padding: 9px 0 13px;
+    }
+    .metric-grid {
+        padding: 12px 0;
+    }
+    .metric strong {
+        font-size: 17px;
+    }
+    .playback {
+        padding-top: 12px;
+    }
 }
+
+@media (min-width: 651px) {
+    #scene {
+        --scene-ground-position: 0.70;
+    }
+}
+
 @media (max-width: 950px) {
+    .brand {
+        font-size: 14px;
+    }
+    .workspace-grid {
+        grid-template-columns: 1fr;
+    }
+    .controls .field-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 24px;
+    }
     .controls .field-grid:not(.compact) {
         row-gap: 18px;
+    }
+    .controls .control-divider {
+        margin: 20px 0;
     }
     .controls .primary-button {
         min-height: 46px;
     }
-}
-
-/* Improve brand label readability on tablet and mobile */
-@media (max-width: 950px) {
-    .brand {
-        font-size: 14px;
+    .charts-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .hero {
+        padding-top: 56px;
+        padding-bottom: 42px;
+    }
+    .hero h1 {
+        font-size: clamp(46px, 8vw, 68px);
+        margin: 18px 0 14px;
+    }
+    .hero-stats {
+        margin-top: 24px;
     }
 }
 
 @media (max-width: 650px) {
     .brand {
         font-size: 13px;
+        gap: 7px;
+        letter-spacing: 0.08em;
+    }
+    .brand-mark {
+        width: 30px;
+        height: 30px;
+    }
+    .topbar {
+        height: 64px;
+        padding: 0 17px;
+    }
+    .topbar nav {
+        gap: 10px;
+        flex-shrink: 0;
+    }
+    .topbar nav a {
+        display: inline-block;
+        font-size: var(--font-caption);
+    }
+    .github-link {
+        padding: 6px;
+    }
+    main {
+        padding: 0 15px;
+    }
+    .hero {
+        padding: 48px 4px 34px;
+    }
+    .hero h1 {
+        font-size: clamp(42px, 12vw, 58px);
+    }
+    .hero-copy {
+        font-size: 14px;
+    }
+    .hero-stats {
+        gap: 18px;
+    }
+    .hero-stats strong {
+        font-size: 18px;
+    }
+    .hero-stats small {
+        letter-spacing: .11em;
+    }
+    .section-heading {
+        align-items: flex-end;
+    }
+    .live-status {
+        letter-spacing: .08em;
+    }
+    .panel {
+        padding: 16px;
+    }
+    .controls .field-grid,
+    .controls .field-grid.compact {
+        grid-template-columns: 1fr;
+    }
+    .metric-grid {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 16px;
+    }
+    .charts-grid,
+    .model-grid {
+        grid-template-columns: 1fr;
+    }
+    .chart-panel {
+        min-height: 290px;
+    }
+    .equation-panel {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .equation {
+        white-space: normal;
+    }
+    .scene-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .scene-status {
+        justify-content: flex-start;
+    }
+    .scene-legend {
+        gap: 10px;
+        padding: 8px 0 14px;
+    }
+    .phase-pill {
+        padding: 4px 7px;
+    }
+    #scene {
+        height: 270px;
+    }
+    .playback label {
+        margin-left: 0;
+    }
+    footer {
+        flex-direction: column;
+    }
+    .workspace {
+        padding-bottom: 60px;
+    }
+    .model-section {
+        padding-bottom: 60px;
     }
 }

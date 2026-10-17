@@ -88,7 +88,12 @@ function updateLabels() {
 rangeIds.forEach(id => $(id).addEventListener("input", updateLabels));
 updateLabels();
 
+function chartAxisFontSize() {
+    return window.matchMedia("(max-width: 650px)").matches ? 10 : 11;
+}
+
 function chartOptions(yTitle, min, max) {
+    const axisFontSize = chartAxisFontSize();
     return {
         responsive: true,
         maintainAspectRatio: false,
@@ -103,7 +108,7 @@ function chartOptions(yTitle, min, max) {
                     color: "#aab8cd",
                     boxWidth: 10,
                     font: {
-                        size: 10
+                        size: axisFontSize
                     }
                 }
             }
@@ -112,7 +117,10 @@ function chartOptions(yTitle, min, max) {
             x: {
                 ticks: {
                     color: "#71819a",
-                    maxTicksLimit: 7
+                    maxTicksLimit: 7,
+                    font: {
+                        size: axisFontSize
+                    }
                 },
                 grid: {
                     color: "#233149"
@@ -120,12 +128,18 @@ function chartOptions(yTitle, min, max) {
                 title: {
                     display: true,
                     text: "Time (s)",
-                    color: "#8d9bb2"
+                    color: "#8d9bb2",
+                    font: {
+                        size: axisFontSize
+                    }
                 }
             },
             y: {
                 ticks: {
-                    color: "#71819a"
+                    color: "#71819a",
+                    font: {
+                        size: axisFontSize
+                    }
                 },
                 grid: {
                     color: "#233149"
@@ -133,7 +147,10 @@ function chartOptions(yTitle, min, max) {
                 title: {
                     display: true,
                     text: yTitle,
-                    color: "#8d9bb2"
+                    color: "#8d9bb2",
+                    font: {
+                        size: axisFontSize
+                    }
                 },
                 ...(min !== undefined ? {
                     suggestedMin: min
