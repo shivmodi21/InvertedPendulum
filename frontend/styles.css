@@ -469,11 +469,10 @@ button:disabled {
     border-color: #286b55;
     background: #0d211d
 }
-.phase-pill .dot-sep {
-    width: 4px;
-    height: 4px;
+.phase-pill .meta-sep {
+    font-size: 0.42em;
     opacity: 0.55;
-    vertical-align: 0.15em;
+    vertical-align: 0.12em;
 }
 .model-section {
     padding: 40px 0 90px;
@@ -583,16 +582,19 @@ footer {
     line-height: 1.45
 }
 
-/* Meta separators (CSS dots) */
-.dot-sep {
-    display: inline-block;
-    width: 3px;
-    height: 3px;
+/* Meta separators and inline operators (Font Awesome) */
+.meta-sep {
+    font-size: 0.38em;
     margin: 0 0.55em;
-    border-radius: 50%;
-    background: currentColor;
     opacity: 0.42;
-    vertical-align: 0.25em;
+    vertical-align: 0.2em;
+    flex-shrink: 0;
+}
+.inline-op {
+    font-size: 0.72em;
+    margin: 0 0.4em;
+    opacity: 0.82;
+    vertical-align: 0.08em;
     flex-shrink: 0;
 }
 .meta-inline {
@@ -600,23 +602,29 @@ footer {
     align-items: center;
     flex-wrap: wrap;
 }
-.meta-inline > span:not(:last-child)::after,
-.meta-stack > span:not(:last-child)::after {
-    content: "";
-    display: inline-block;
-    width: 3px;
-    height: 3px;
-    margin: 0 0.55em;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.35;
-    vertical-align: 0.2em;
-}
 .meta-stack {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.45em 0;
+    gap: 0.2em 0;
+}
+.formula .fa-solid,
+.equation .fa-solid,
+.chart-note .fa-solid,
+.hero-stats .fa-solid {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+.playback-speed .speed-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    margin-left: 5px;
+}
+.playback-mult {
+    margin: 0;
+    font-size: 0.85em;
+    opacity: 0.75;
 }
 
 /* Responsive — largest viewports first */

@@ -33,6 +33,7 @@
                 <span class="pulse"></span>
                 <span class="meta-inline">
                     <span>DYNAMICAL SYSTEMS</span>
+                    <i class="fa-solid fa-circle meta-sep" aria-hidden="true"></i>
                     <span>CONTROL THEORY</span>
                 </span>
             </div>
@@ -40,7 +41,7 @@
             <p class="hero-copy">Let the pole fall, watch the cart deliver a sharp swing-up impulse, then see a feedback controller catch the pole and balance it upright. Follow every correction in synchronized live graphs.</p>
             <div class="hero-stats">
                 <div><strong>03</strong><small>CONTROL PHASES</small></div>
-                <div><strong>HYBRID</strong><small>SWING-UP + LQR</small></div>
+                <div><strong>HYBRID</strong><small>SWING-UP <i class="fa-solid fa-plus inline-op" aria-hidden="true"></i> LQR</small></div>
                 <div><strong>RK45</strong><small>NUMERICAL SOLVER</small></div>
             </div>
         </section>
@@ -154,14 +155,17 @@
                         <button id="pause" class="secondary-button" disabled>
                             <i class="fa-solid fa-pause" aria-hidden="true"></i> Pause
                         </button>
-                        <label>
+                        <label class="playback-speed">
                             Playback speed
-                            <select id="speed">
-                                <option value=".5">0.5×</option>
-                                <option value="1" selected>1×</option>
-                                <option value="2">2×</option>
-                                <option value="4">4×</option>
-                            </select>
+                            <span class="speed-control">
+                                <select id="speed">
+                                    <option value=".5">0.5</option>
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="4">4</option>
+                                </select>
+                                <i class="fa-solid fa-xmark inline-op playback-mult" aria-hidden="true"></i>
+                            </span>
                         </label>
                         <span id="frame-count">Awaiting simulation</span>
                     </div>
@@ -171,7 +175,7 @@
                 <article class="panel chart-panel">
                     <div class="panel-heading">
                         <h3>System response</h3>
-                        <span class="chart-note">Cart position + pole angle</span>
+                        <span class="chart-note">Cart position <i class="fa-solid fa-plus inline-op" aria-hidden="true"></i> pole angle</span>
                     </div>
                     <canvas id="stateChart"></canvas>
                 </article>
@@ -203,13 +207,13 @@
                     <span class="model-number">02</span>
                     <h3>Linearization</h3>
                     <p>A state-space model around the upright equilibrium provides the local approximation used to design the feedback controller.</p>
-                    <div class="formula">ẋ = Ax + Bu</div>
+                    <div class="formula">ẋ = Ax <i class="fa-solid fa-plus inline-op" aria-hidden="true"></i> Bu</div>
                 </article>
                 <article class="model-card">
                     <span class="model-number">03</span>
                     <h3>Hybrid controller</h3>
                     <p>An energy-shaping swing-up controller injects energy after the natural fall. When the pole enters the capture region, LQR feedback stabilizes it upright.</p>
-                    <div class="formula">Swing-up → LQR</div>
+                    <div class="formula">Swing-up <i class="fa-solid fa-arrow-right inline-op" aria-hidden="true"></i> LQR</div>
                 </article>
             </div>
             <div class="equation-panel">
@@ -218,13 +222,13 @@
                     <h3>Choose the behavior you want.</h3>
                     <p>Increase the angle weight to prioritize keeping the pole upright. Increase R to penalize large control forces.</p>
                 </div>
-                <div class="equation">J = ∫ (xᵀQx + uᵀRu) dt</div>
+                <div class="equation">J = ∫ (xᵀQx <i class="fa-solid fa-plus inline-op" aria-hidden="true"></i> uᵀRu) dt</div>
             </div>
         </section>
         <section id="about" class="about-section">
             <span class="section-index">03 / PROJECT NOTES</span>
-            <h2>Built to experiment.</h2>
-            <p>This project translates a MATLAB cart-pole simulation into Python and makes the controller explorable through a browser. It combines nonlinear simulation, optimal control, numerical integration, and front-end visualization.</p>
+            <h2>An interactive control experiment.</h2>
+            <p>This lab simulates a cart-mounted inverted pendulum in your browser: the pole falls freely, a swing-up controller injects energy, and LQR feedback stabilizes it near the upright target. Tune physical parameters and controller weights, run the simulation, and follow cart position, pole angle, and applied force through the live view and synchronized charts. Nonlinear dynamics and numerical integration run on a Python backend; the badges below list the stack used to build and serve the experience.</p>
             <div class="tech-tags">
                 <span>Python</span>
                 <span>NumPy</span>
@@ -234,9 +238,11 @@
                 <span>JavaScript</span>
             </div>
             <p class="footnote meta-stack">
-                <span>Idealized nonlinear model</span>
-                <span>Bounded actuator force and cart travel</span>
-                <span>LQR is used only near the upright equilibrium</span>
+                <span>Idealized nonlinear dynamics</span>
+                <i class="fa-solid fa-circle meta-sep" aria-hidden="true"></i>
+                <span>Force and travel limits</span>
+                <i class="fa-solid fa-circle meta-sep" aria-hidden="true"></i>
+                <span>LQR near upright only</span>
             </p>
         </section>
     </main>
@@ -244,6 +250,7 @@
         <span>INVERTED PENDULUM LAB</span>
         <span class="meta-inline">
             <span>Designed &amp; engineered by Shiv Modi</span>
+            <i class="fa-solid fa-circle meta-sep" aria-hidden="true"></i>
             <span id="year"></span>
         </span>
     </footer>

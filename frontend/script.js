@@ -32,8 +32,14 @@ const units = {
     q_angle: "",
     r_control: ""
 };
-const dotSep = '<span class="dot-sep" aria-hidden="true"></span>';
-const metaJoin = (...parts) => parts.join(dotSep);
+const fa = (name, extraClass = "") => {
+    const classes = extraClass ? `fa-solid fa-${name} ${extraClass}` : `fa-solid fa-${name}`;
+    return `<i class="${classes}" aria-hidden="true"></i>`;
+};
+const metaSep = fa("circle", "meta-sep");
+const metaJoin = (...parts) => parts.join(metaSep);
+const plusSep = fa("plus", "inline-op");
+const plusJoin = (...parts) => parts.join(plusSep);
 const phaseLabels = {
     fall: {
         label: metaJoin("01", "NATURAL FALL"),
@@ -52,7 +58,6 @@ const phaseLabels = {
         className: "phase-fall"
     }
 };
-const fa = (name) => `<i class="fa-solid fa-${name}" aria-hidden="true"></i>`;
 const emptyMetricHtml = (unit) => `${fa("minus")} <em>${unit}</em>`;
 const emptyMetrics = {
     "metric-position": emptyMetricHtml("m"),
@@ -455,7 +460,8 @@ $("run").addEventListener("click", async () => {
         showFrame(0);
         $("play").disabled = false;
         $("pause").disabled = false;
-        $("message").innerHTML = `${metaJoin("Ready", `${data.time.length} samples`, data.controller_enabled ? "hybrid swing-up + LQR" : "controller disabled")}.`;
+        const modeLabel = data.controller_enabled ? plusJoin("hybrid swing-up", "LQR") : "controller disabled";
+        $("message").innerHTML = `${metaJoin("Ready", `${data.time.length} samples`, modeLabel)}.`;
         setPlayButton("play");
         startPlayback();
     } catch (err) {
